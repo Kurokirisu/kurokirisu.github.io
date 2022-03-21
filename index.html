@@ -1,0 +1,147 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js"></script>
+    <script type="text/javascript" language="javascript" src="character_database.js"></script> 
+  </head>
+  <body>
+
+    <div>
+        <img src="https://static.wikia.nocookie.net/gensin-impact/images/3/39/Item_Tartaglia.png" name="teamImage" width="160" height="160">
+        <img src="https://static.wikia.nocookie.net/gensin-impact/images/3/39/Item_Tartaglia.png" name="teamImage" width="160" height="160">
+        <img src="https://static.wikia.nocookie.net/gensin-impact/images/3/39/Item_Tartaglia.png" name="teamImage" width="160" height="160">
+        <img src="https://static.wikia.nocookie.net/gensin-impact/images/3/39/Item_Tartaglia.png" name="teamImage" width="160" height="160">
+    </div>
+
+    <div>
+        <p></p>
+        <button type="button" onclick="selectAll()">Select all</button>
+        <button type="button" onclick="selectNone()">Select none</button>
+        <p></p>
+    </div>
+
+    <div id = "checkboxes">
+    </div>
+
+    <div id="warning" style = "display:none">
+        <p></p>
+        Must select at least 4 characters.
+    </div>
+
+    <div>
+        <p></p>
+        <button type="button" onclick="generateTeam()">Generate team</button>
+    </div>
+
+    <script type="text/javascript">
+
+        var characterList = [];
+
+        var team = [];
+
+        var checkboxDiv = document.getElementById("checkboxes");
+
+        for (i = 0; i < database.length; i++) {
+            var character = database[i];
+
+            var checkbox = document.createElement('input');
+              
+            checkbox.type = "checkbox";
+            checkbox.name = "characterCheckbox";
+            checkbox.value = i;
+            checkbox.onclick = handleCheckboxClick;
+            checkbox.id = i;
+              
+            var label = document.createElement('label');
+              
+            label.htmlFor = i;
+              
+            label.appendChild(document.createTextNode(character.Name));
+              
+            checkboxDiv.appendChild(checkbox);
+            checkboxDiv.appendChild(label);
+        }
+
+        ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
+            if( command === "generate" ) {
+                generateTeam();
+                console.log("Generating team...")
+            }
+        }
+        ComfyJS.Init( "Kurokirisu" );
+
+        function handleCheckboxClick(cb) {
+            var checkboxes = document.getElementsByName("characterCheckbox");
+            var checkboxesChecked = [];
+            characterList = [];
+
+            for (var i=0; i<checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    checkboxesChecked.push(checkboxes[i]);
+                }
+            }
+
+            for(var checked of checkboxesChecked.values()) {
+                characterList.push(database[checked.value])
+            }
+
+            if (characterList.length < 4)
+            {
+                document.getElementById("warning").style.display = "inline";
+            } else
+            {
+                document.getElementById("warning").style.display = "none";
+            }
+            // console.log(characterList);
+        }
+
+        function selectAll() {
+            var checkboxes = document.getElementsByName("characterCheckbox");
+            for(var i=0, n=checkboxes.length;i<n;i++) {
+                checkboxes[i].checked = true;
+            }
+            characterList = database;
+            document.getElementById("warning").style.display = "none";
+        }
+
+        function selectNone() {
+            var checkboxes = document.getElementsByName("characterCheckbox");
+            for(var i=0, n=checkboxes.length;i<n;i++) {
+                checkboxes[i].checked = false;
+            }
+            characterList = [];
+            document.getElementById("warning").style.display = "none";
+        }
+
+        function generateTeam() {
+            if(characterList.length < 4)
+            {
+                document.getElementById("warning").style.display = "inline";
+                return;
+            }
+            console.log(team);
+            team = [];
+            for (i=1; i<= 4; i++)
+            {
+                var randomNumber = getRandomInt(characterList.length);
+                console.log(characterList[randomNumber]);
+                team.push(characterList[randomNumber]);
+                characterList.splice(randomNumber, 1);
+            }
+            setTeamImages();
+            console.log(team);
+        }
+
+        function setTeamImages()
+        {
+            var images = document.getElementsByName("teamImage");
+            for(var i=0, n=images.length;i<n;i++) {
+                images[i].src = team[i].Url;
+            }
+        }
+
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+        }
+    </script>
+  </body>
+</html>
