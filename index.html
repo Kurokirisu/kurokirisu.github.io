@@ -32,6 +32,12 @@
         <button type="button" onclick="generateTeam()">Generate team</button>
     </div>
 
+    <!-- <div>
+        <br>
+        <label for="channel">Channel name:</label>
+        <input type="text" id="channel" name="channel">  
+    </div> -->
+
     <script type="text/javascript">
 
         var characterList = [];
@@ -67,7 +73,8 @@
                 console.log("Generating team...")
             }
         }
-        ComfyJS.Init( "Kurokirisu" );
+        // var channelName = document.getElementById("channel").value;
+        ComfyJS.Init( "TheHoodlum12" );
 
         function handleCheckboxClick(cb) {
             var checkboxes = document.getElementsByName("characterCheckbox");
