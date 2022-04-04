@@ -1,7 +1,6 @@
 <html>
   <head>
     <script src="https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js"></script>
-    <script type="text/javascript" language="javascript" src="character_database.js"></script> 
   </head>
   <body>
 
@@ -50,19 +49,19 @@
             var character = database[i];
 
             var checkbox = document.createElement('input');
-              
+            
             checkbox.type = "checkbox";
             checkbox.name = "characterCheckbox";
             checkbox.value = i;
             checkbox.onclick = handleCheckboxClick;
             checkbox.id = i;
-              
+            
             var label = document.createElement('label');
-              
+            
             label.htmlFor = i;
-              
+            
             label.appendChild(document.createTextNode(character.Name));
-              
+            
             checkboxDiv.appendChild(checkbox);
             checkboxDiv.appendChild(label);
         }
